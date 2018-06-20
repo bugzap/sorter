@@ -1,26 +1,43 @@
 /* gtests for sorting algorithms*/
+#include <iostream>
+#include <vector>
+#include <list>
 #include "gtest/gtest.h"
 #include "Sorter.hpp"
 
+
+using List = std::list<int>;
+
+std::vector<List> tInputs;
+std::vector<List> tExpected;
+
+void setup(){
+  tInputs.emplace_back  (List{5,2,3,6,1,7});
+  tExpected.emplace_back(List{1,2,3,5,6,7});
+
+  tInputs.emplace_back  (List{1,1,1,1,1,1});
+  tExpected.emplace_back(List{1,1,1,1,1,1});
+
+  tInputs.emplace_back  (List{});
+  tExpected.emplace_back(List{});
+
+  tInputs.emplace_back  (List{4});
+  tExpected.emplace_back(List{4});
+
+  tInputs.emplace_back  (List{5,4,3,2,1});
+  tExpected.emplace_back(List{1,2,3,4,5});
+}
+
+
 TEST (TestSorter, insertionSort)
 {
-  std::vector<int> input{3,4,5,6,7,1};
-  Sorter s(input, Sorter::Algo::INSERTION);
-  std::vector<int> exp{1,3,4,5,6,7};
-  EXPECT_EQ(exp, s.getResult());
+  setup();
+  for (size_t i = 0;
+       i < tInputs.size();
+       i++)
+    {
+      EXPECT_EQ(tExpected[i],Sorter(tInputs[i], Algo::INSERTION));
+    }
+  
 } 
 
-TEST (TestSorter, selectionSort)
-{
-  std::vector<int> input{3,4,5,6,7,1};
-  Sorter s(input, Sorter::Algo::SELECTION);
-  std::vector<int> exp{1,3,4,5,6,7};
-  EXPECT_EQ(exp, s.getResult());
-} 
-TEST (TestSorter, mergeSort)
-{
-  std::vector<int> input{3,4,5,6,7,1};
-  Sorter s(input, Sorter::Algo::MERGE);
-  std::vector<int> exp{1,3,4,5,6,7};
-  EXPECT_EQ(exp, s.getResult());
-} 
